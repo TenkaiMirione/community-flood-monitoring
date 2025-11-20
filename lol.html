@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
+
+<!-- ⭐ REQUIRED FOR MOBILE RESPONSIVENESS -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Flood Monitoring Dashboard — Pulilan / Plaridel / Calumpit</title>
 
 <!-- Leaflet CSS -->
@@ -23,11 +27,16 @@
 
   .stats{grid-column:1 / -1;display:flex;gap:10px;flex-wrap:wrap}
   .stat{flex:1 1 140px;background:linear-gradient(180deg,#fff,#fbfdff);border-radius:8px;padding:10px;text-align:center;border:1px solid rgba(15,23,42,0.03)}
-  .stat h4{margin:0;font-size:13px;color:var(--muted)} .stat p{margin:6px 0 0;font-weight:700;font-size:18px}
+  .stat h4{margin:0;font-size:13px;color:var(--muted)} 
+  .stat p{margin:6px 0 0;font-weight:700;font-size:18px}
 
   .map-card{grid-column:1 / span 8;min-width:260px}
   .side-card{grid-column:9 / span 4;min-width:220px}
-  @media(max-width:900px){ .map-card{grid-column:1 / -1} .side-card{grid-column:1 / -1} }
+
+  @media(max-width:900px){
+    .map-card{grid-column:1 / -1}
+    .side-card{grid-column:1 / -1}
+  }
 
   #mapid{height:360px;border-radius:8px;border:1px solid rgba(2,6,23,0.06)}
   .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
@@ -42,7 +51,9 @@
 
   .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
   button{background:var(--brand);color:white;padding:9px 14px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
-  button:hover{background:var(--brand-2)} button.secondary{background:#475569} #sirenBtn.active{background:var(--danger) !important}
+  button:hover{background:var(--brand-2)}
+  button.secondary{background:#475569}
+  #sirenBtn.active{background:var(--danger) !important}
 
   .community-card{grid-column:1 / -1}
   .community-posts{display:flex;gap:12px;overflow:auto;padding:8px 4px}
@@ -53,8 +64,13 @@
   .muted{color:var(--muted);font-size:13px}
   .img-viewer{display:none;position:fixed;inset:0;background:rgba(2,6,23,0.75);z-index:999;align-items:center;justify-content:center}
   .img-viewer img{max-width:92%;max-height:92%;border-radius:10px}
-  @media(max-width:480px){ #mapid{height:260px} select{min-width:120px} }
+
+  @media(max-width:480px){
+    #mapid{height:260px}
+    select{min-width:120px}
+  }
 </style>
+
 </head>
 <body>
 
@@ -65,7 +81,6 @@
 
 <div class="dashboard">
 
-  <!-- Stats -->
   <div class="card stats">
     <div class="stat"><h4>Total Sensors</h4><p id="totalSensors">25</p></div>
     <div class="stat"><h4>Active Alerts</h4><p id="activeAlerts">0</p></div>
@@ -73,32 +88,34 @@
     <div class="stat"><h4>Rainfall Index</h4><p id="rainfallIndex">Moderate</p></div>
   </div>
 
-  <!-- Map -->
   <div class="card map-card">
     <h3 style="margin:0 0 8px 0">Live Map</h3>
-    <div class="controls" aria-hidden="false">
+
+    <div class="controls">
       <div style="min-width:180px">
-        <label class="muted" for="municipalitySelect">Municipality</label>
-        <select id="municipalitySelect" aria-label="Municipality select">
+        <label class="muted">Municipality</label>
+        <select id="municipalitySelect">
           <option value="">Choose municipality</option>
           <option value="Pulilan">Pulilan</option>
           <option value="Plaridel">Plaridel</option>
           <option value="Calumpit">Calumpit</option>
         </select>
       </div>
+
       <div style="min-width:180px">
-        <label class="muted" for="barangaySelect">Barangay</label>
-        <select id="barangaySelect" aria-label="Barangay select">
+        <label class="muted">Barangay</label>
+        <select id="barangaySelect">
           <option value="">Choose barangay</option>
         </select>
       </div>
     </div>
+
     <div id="mapid"></div>
   </div>
 
-  <!-- Right column -->
   <div class="card side-card">
     <h3 style="margin-top:0">Sensor Status</h3>
+
     <table aria-live="polite">
       <thead><tr><th>Sensor</th><th>Flood Level</th><th>Status</th></tr></thead>
       <tbody id="sensorBody">
@@ -115,21 +132,22 @@
       <button class="secondary" onclick="sendSMS()">Send SMS Alert</button>
       <button class="secondary" onclick="ackAlerts()">Acknowledge All</button>
     </div>
-    <p class="muted" style="margin-top:10px">Tip: choose municipality → barangay to center the map.</p>
+
   </div>
 
-  <!-- Community -->
   <div class="card community-card">
     <h3 style="margin-top:0">Community Updates</h3>
+
     <div class="community-posts" id="communityPosts">
       <div class="post">
-        <div class="post-image"><img src="518872998_1098572772156644_9023032798546719635_n.jpg" alt="Cutcot" onclick="openViewer(this.src)"></div>
+        <div class="post-image"><img src="518872998_1098572772156644_9023032798546719635_n.jpg" onclick="openViewer(this.src)"></div>
         <div style="padding-top:8px"><strong>Brgy. Cutcot · Pulilan</strong></div>
         <div class="muted">People needing help: 12</div>
         <div style="margin-top:6px">Water reached knee level. Roads blocked.</div>
       </div>
+
       <div class="post">
-        <div class="post-image"><img src="518729832_1658265634876602_990310848769167326_n.jpg" alt="Tibag" onclick="openViewer(this.src)"></div>
+        <div class="post-image"><img src="518729832_1658265634876602_990310848769167326_n.jpg" onclick="openViewer(this.src)"></div>
         <div style="padding-top:8px"><strong>Brgy. Tibag · Pulilan</strong></div>
         <div class="muted">People needing help: 5</div>
         <div style="margin-top:6px">Families trapped, rescue needed.</div>
@@ -146,14 +164,16 @@
 
 </div>
 
-<!-- Viewer & audio -->
-<div class="img-viewer" id="viewer" onclick="closeViewer()"><img id="viewer-img" alt="zoomed"></div>
+<div class="img-viewer" id="viewer" onclick="closeViewer()">
+  <img id="viewer-img">
+</div>
+
 <audio id="sirenAudio" src="Tornado Siren - Sound Effect.mp3" preload="auto"></audio>
 
-<!-- Leaflet -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 <script>
-/* ====== DATA: full barangay lists as provided (Pulilan, Plaridel, Calumpit) ====== */
+/* ====== FULL BARANGAY LISTS ====== */
 const barangays = {
   "Pulilan":[
     "Balatong A","Balatong B","Cutcot","Dampol 1st","Dampol 2nd A","Dampol 2nd B",
@@ -163,29 +183,23 @@ const barangays = {
   "Plaridel":[
     "Agnaya","Bagong Silang","Banga I","Banga II","Bintog","Bulihan","Culianin","Dampol",
     "Lagundi","Lalangan","Lumang Bayan","Parulan","Poblacion","Rueda","San Jose",
-    "Santa Ines","Santo Nifio","Sipat","Tabang"
+    "Santa Ines","Santo Niño","Sipat","Tabang"
   ],
   "Calumpit":[
-    "Balite","Ba•ungao","Buguion","Bulusan","Calizon","Calumpang","Caniogan","Corazon","Frances",
+    "Balite","Baungao","Buguion","Bulusan","Calizon","Calumpang","Caniogan","Corazon","Frances",
     "Gatbuca","Gugo","Iba Este","Iba Oeste","Longos","Meyswao","Meyto","Palimbang","Panducot",
-    "Pio Cruzcosa","P0blacion","Pungo","San Jose","San Marcos","San Miguel","Santa Lucia",
-    "Santo Niho","Sapang Bayan","Sergio Bayan","Sucol"
+    "Pio Cruzcosa","Poblacion","Pungo","San Jose","San Marcos","San Miguel","Santa Lucia",
+    "Santo Niño","Sapang Bayan","Sergio Bayan","Sucol"
   ]
 };
 
-/* ====== MUNICIPALITY CENTER COORDINATES (sources cited below) ======
-   Pulilan (approx): 14.9017, 120.8490
-   Plaridel (approx): 14.8866, 120.8599
-   Calumpit (approx): 14.9164, 120.7660
-   (These are municipality centers — markers are placed here per your Option C.)
-*/
+/* ====== MUNICIPALITY COORDS ====== */
 const muniCoords = {
   "Pulilan":[14.9017,120.8490],
   "Plaridel":[14.8866,120.8599],
   "Calumpit":[14.9164,120.7660]
 };
 
-/* ====== UI references ====== */
 const municipalitySelect = document.getElementById('municipalitySelect');
 const barangaySelect = document.getElementById('barangaySelect');
 const liveAlerts = document.getElementById('liveAlerts');
@@ -198,118 +212,168 @@ const communityPostsEl = document.getElementById('communityPosts');
 
 let currentMarker = null;
 
-/* ====== Map init ====== */
-const map = L.map('mapid', {zoomControl:true}).setView([14.90,120.83], 11);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors'}).addTo(map);
+/* ====== MAP INIT ====== */
+const map = L.map('mapid').setView([14.90,120.83], 11);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{ attribution:'© OpenStreetMap contributors' }).addTo(map);
 
-/* ====== municipality select behavior ====== */
+/* ====== MUNICIPALITY SELECT ====== */
 municipalitySelect.addEventListener('change', () => {
   const mun = municipalitySelect.value;
-  // reset barangay select
   barangaySelect.innerHTML = '<option value="">Choose barangay</option>';
-  // remove current marker
-  if(currentMarker){ map.removeLayer(currentMarker); currentMarker = null; }
+  if(currentMarker){ map.removeLayer(currentMarker); currentMarker=null; }
 
   if(!mun) return;
-  // populate barangays for this municipality
-  const list = barangays[mun] || [];
-  list.forEach(b => {
+  barangays[mun].forEach(b => {
     const opt = document.createElement('option');
-    opt.value = b;
-    opt.textContent = b;
+    opt.value = b; opt.textContent = b;
     barangaySelect.appendChild(opt);
   });
 
-  // place single marker at municipality center and fit view
   const c = muniCoords[mun];
   if(c){
     currentMarker = L.marker(c).addTo(map).bindPopup(`<strong>${mun}</strong>`).openPopup();
-    map.setView(c, 13);
+    map.setView(c,13);
   }
 });
 
-/* ====== barangay select behavior: center to municipality center and open popup showing barangay name ====== */
+/* ====== BARANGAY SELECT ====== */
 barangaySelect.addEventListener('change', () => {
-  const b = barangaySelect.value;
   const mun = municipalitySelect.value;
-  if(!mun || !b) return;
+  const bar = barangaySelect.value;
+  if(!mun || !bar) return;
+
   const c = muniCoords[mun];
   if(c){
-    // show popup with barangay name (municipality-level marker)
     if(currentMarker){
-      currentMarker.bindPopup(`<strong>${b}</strong><div class="muted">${mun}</div>`).openPopup();
+      currentMarker.bindPopup(`<strong>${bar}</strong><div class='muted'>${mun}</div>`).openPopup();
     } else {
-      currentMarker = L.marker(c).addTo(map).bindPopup(`<strong>${b}</strong><div class="muted">${mun}</div>`).openPopup();
+      currentMarker = L.marker(c).addTo(map).bindPopup(`<strong>${bar}</strong><div>${mun}</div>`).openPopup();
     }
-    map.setView(c, 14);
+    map.setView(c,14);
   }
 });
 
-/* ====== rest of the interactive features (siren, sensors, alerts) ====== */
-/* image viewer */
-function openViewer(src){ document.getElementById('viewer-img').src = src; document.getElementById('viewer').style.display='flex'; }
-function closeViewer(){ document.getElementById('viewer').style.display='none'; }
+/* ====== IMAGE VIEWER ====== */
+function openViewer(src){
+  document.getElementById('viewer-img').src = src;
+  document.getElementById('viewer').style.display = 'flex';
+}
+function closeViewer(){
+  document.getElementById('viewer').style.display = 'none';
+}
 
-/* siren */
-let sirenPlaying=false;
-const sirenBtn=document.getElementById('sirenBtn');
+/* ====== SIREN ====== */
+let sirenPlaying = false;
+const sirenBtn = document.getElementById('sirenBtn');
+
 function toggleSiren(){
-  const audio=document.getElementById('sirenAudio');
-  if(!sirenPlaying){ audio.play().catch(()=>{}); sirenPlaying=true; sirenBtn.classList.add('active'); sirenBtn.innerText='Deactivate Siren'; }
-  else{ audio.pause(); audio.currentTime=0; sirenPlaying=false; sirenBtn.classList.remove('active'); sirenBtn.innerText='Activate Siren'; }
+  const audio = document.getElementById('sirenAudio');
+  if(!sirenPlaying){
+    audio.play().catch(()=>{});
+    sirenPlaying = true;
+    sirenBtn.classList.add('active');
+    sirenBtn.innerText = "Deactivate Siren";
+  } else {
+    audio.pause();
+    audio.currentTime = 0;
+    sirenPlaying = false;
+    sirenBtn.classList.remove('active');
+    sirenBtn.innerText = "Activate Siren";
+  }
 }
 
-/* SMS / ack */
-function sendSMS(){ alert('SMS Alert Sent (simulated).'); }
-function ackAlerts(){ liveAlerts.innerHTML=''; updateCounts(); }
+/* ====== SMS / ACK ====== */
+function sendSMS(){ alert("SMS Alert Sent (simulated)."); }
+function ackAlerts(){ liveAlerts.innerHTML = ""; updateCounts(); }
 
-/* community posts */
-function simulateUpload(){ alert('Photo upload simulated.'); }
+/* ====== COMMUNITY POSTS ====== */
+function simulateUpload(){ alert("Photo upload simulated."); }
+
 function submitPost(){
-  const text=document.getElementById('postText') ? document.getElementById('postText').value : '';
-  const container=document.createElement('div'); container.className='post';
-  container.innerHTML = `<div class="post-image"><img src="518872998_1098572772156644_9023032798546719635_n.jpg" alt="user post"></div>
-    <div style="padding-top:8px"><strong>Community Post</strong></div><div class="muted">${new Date().toLocaleString()}</div>
-    <div style="margin-top:6px">${escapeHtml(text || 'No description')}</div>`;
-  communityPostsEl.insertBefore(container, communityPostsEl.firstChild);
-  if(document.getElementById('postText')) document.getElementById('postText').value='';
-}
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+  const text = document.getElementById("postText").value;
+  const box = document.createElement("div");
+  box.className = "post";
 
-/* alerts & sensors simulation */
+  box.innerHTML =
+  `<div class="post-image"><img src="518872998_1098572772156644_9023032798546719635_n.jpg"></div>
+   <div style="padding-top:8px"><strong>Community Post</strong></div>
+   <div class="muted">${new Date().toLocaleString()}</div>
+   <div style="margin-top:6px">${escapeHtml(text)}</div>`;
+
+  communityPostsEl.prepend(box);
+  document.getElementById("postText").value = "";
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+}
+
+/* ====== ALERT & SENSOR SIM ====== */
 const ALERT_LIMIT = 40;
+
 function pushAlert(text){
-  const li=document.createElement('li'); li.textContent=text; liveAlerts.appendChild(li);
-  while(liveAlerts.children.length > ALERT_LIMIT) liveAlerts.removeChild(liveAlerts.firstChild);
-  liveAlerts.parentElement.scrollTop = liveAlerts.parentElement.scrollHeight;
+  const li = document.createElement("li");
+  li.textContent = text;
+  liveAlerts.appendChild(li);
+
+  while(liveAlerts.children.length > ALERT_LIMIT){
+    liveAlerts.removeChild(liveAlerts.firstChild);
+  }
+
   updateCounts();
 }
+
 function updateCounts(){
   const st = sensorStatusEl.className;
-  activeAlertsEl.textContent = (st === 'status-warning' ? 1 : 0);
-  criticalAreasEl.textContent = (st === 'status-danger' ? 1 : 0);
+  activeAlertsEl.textContent = (st === "status-warning" ? 1 : 0);
+  criticalAreasEl.textContent = (st === "status-danger" ? 1 : 0);
 }
-const rainfallOptions=["Light","Moderate","Heavy"];
-function randomRainfall(){ rainfallIndexEl.textContent = rainfallOptions[Math.floor(Math.random()*rainfallOptions.length)]; }
+
+const rainfallOptions = ["Light","Moderate","Heavy"];
+function randomRainfall(){
+  rainfallIndexEl.textContent = rainfallOptions[Math.floor(Math.random()*rainfallOptions.length)];
+}
 
 function simulateSensors(){
-  const lvl=(Math.random()*2).toFixed(2);
+  const lvl = (Math.random()*2).toFixed(2);
   floodLevelEl.textContent = `${lvl} m`;
-  if(lvl > 1.5){ sensorStatusEl.textContent='Critical'; sensorStatusEl.className='status-danger'; }
-  else if(lvl > 1.0){ sensorStatusEl.textContent='Alert'; sensorStatusEl.className='status-warning'; }
-  else { sensorStatusEl.textContent='Normal'; sensorStatusEl.className='status-ok'; }
-  if(Math.random() < 0.45){ const now=new Date(); pushAlert(`${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')} - Angat River ${sensorStatusEl.textContent}`); }
-  randomRainfall(); updateCounts();
+
+  if(lvl > 1.5){
+    sensorStatusEl.textContent = "Critical";
+    sensorStatusEl.className = "status-danger";
+  } else if(lvl > 1.0){
+    sensorStatusEl.textContent = "Alert";
+    sensorStatusEl.className = "status-warning";
+  } else {
+    sensorStatusEl.textContent = "Normal";
+    sensorStatusEl.className = "status-ok";
+  }
+
+  if(Math.random() < 0.45){
+    const now = new Date();
+    pushAlert(`${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')} - Angat River ${sensorStatusEl.textContent}`);
+  }
+
+  randomRainfall();
+  updateCounts();
 }
 
-/* initial demo alerts */
-pushAlert('6:05 am - Angat river NORMAL');
-pushAlert('6:45 am - Angat river ALERT level');
-setInterval(simulateSensors, 5000); simulateSensors();
-setTimeout(()=> pushAlert('7:15 am - Angat river ALERT level (demo)'), 4200);
+/* ====== INITIAL DEMO ====== */
+pushAlert("6:05 am - Angat river NORMAL");
+pushAlert("6:45 am - Angat river ALERT level");
 
-/* keyboard: Esc stops siren */
-document.addEventListener('keydown', e => { if(e.key === 'Escape' && sirenPlaying) toggleSiren(); });
+setInterval(simulateSensors, 5000);
+simulateSensors();
+
+setTimeout(()=>pushAlert("7:15 am - Angat river ALERT level (demo)"), 4200);
+
+/* ESC to stop siren */
+document.addEventListener('keydown', e=>{
+  if(e.key === "Escape" && sirenPlaying){
+    toggleSiren();
+  }
+});
 </script>
+
 </body>
 </html>
